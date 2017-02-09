@@ -1,0 +1,31 @@
+{
+  "name": "dynamodb-get-expression-attributes",
+  "description": "Split an object into ExpressionAttributeNames and ExpressionAttributeValues for use in a DynamoDB query.",
+  "version": "1.0.0",
+  "author": "John Flesch <john@fles.ch> (https://fles.ch/)",
+  "bugs": {
+    "url": "https://github.com/flesch/dynamodb-get-expression-attributes/issues"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-env": "^1.1.8"
+  },
+  "homepage": "https://github.com/flesch/dynamodb-get-expression-attributes",
+  "keywords": [
+    "attribute",
+    "documentclient",
+    "dynamodb",
+    "expression"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flesch/dynamodb-get-expression-attributes.git"
+  },
+  "scripts": {
+    "compile": "mkdir -p dist && babel index.js --out-file dist/index.js",
+    "prepublish": "npm run compile",
+    "test": "node test.js"
+  }
+}
