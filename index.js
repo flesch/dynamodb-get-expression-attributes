@@ -1,20 +1,26 @@
 'use strict';
 
-const getExpressionAttributes = (obj) => {
+const getExpressionAttributes = (params, data) => {
 
-  const attributes = Object.keys(obj);
+  const expressions = ['KeyConditionExpression', 'FilterExpression', 'ProjectionExpression'].map(exp => params[exp]).filter(x => x);
 
-  // { "#attribute": "attribute" }
-  const ExpressionAttributeNames = Object.assign(...attributes.map(attribute => {
-    return { [`#${attribute}`]: attribute };
+  // #attribute
+  const ExpressionAttributeNames = Object.assign(...expressions.map(expression => {
+    const names = expression.match(/#([0-9A-Za-z_]+)/g) || [];
+    return Object.assign({}, ...names.map(attribute => {
+      return { [attribute]: attribute.replace(/^#/, '') };
+    }));
   }));
 
-  // { ":attribute": value }
-  const ExpressionAttributeValues = Object.assign(...attributes.map(attribute => {
-    return { [`:${attribute}`]: obj[attribute] };
+  // :attribute
+  const ExpressionAttributeValues = Object.assign(...expressions.map(expression => {
+    const values = expression.match(/:([0-9A-Za-z_]+)/g) || [];
+    return Object.assign({}, ...values.map(attribute => {
+      return { [attribute]: data[attribute.replace(/^:/, '')] };
+    }));
   }));
 
-  return { ExpressionAttributeNames, ExpressionAttributeValues };
+  return Object.assign(JSON.parse(JSON.stringify(params)), { ExpressionAttributeNames, ExpressionAttributeValues });
 
 };
 

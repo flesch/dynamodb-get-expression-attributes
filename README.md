@@ -1,18 +1,23 @@
 # dynamodb-get-expression-attributes
 
-A simple utility to split an `object` into `ExpressionAttributeNames` and `ExpressionAttributeValues` for use in a DynamoDB query.
+A simple utility to extract the needed `ExpressionAttributeNames` and `ExpressionAttributeValues` from a DynamoDB `KeyConditionExpression`, `FilterExpression` and/or `ProjectionExpression` query/scan expression.
 
 Instead of this:
 
 ```js
 const params = {
-  TableName: 'Movies',
-  KeyConditionExpression: '#year = :year',
-  ExpressionAttributeNames:{
-    '#yr': 'year'
+  TableName: 'sessions',
+  FilterExpression: '#user = :user and #date between :start and :end',
+  ProjectionExpression: '#date, #user, #session',
+  ExpressionAttributeNames: {
+    '#user': 'user',
+    '#date': 'date',
+    '#session': 'session'
   },
   ExpressionAttributeValues: {
-    ':year': 1985
+    ':user': '123456',
+    ':start': '2017-02-01',
+    ':end': '2017-03-01'
   }
 };
 ```
@@ -22,21 +27,11 @@ You can do this:
 ```js
 const getExpressionAttributes = require('dynamodb-get-expression-attributes');
 
-const params = Object.assign({
-  TableName: 'Movies',
-  KeyConditionExpression: '#year = :year'
-}, getExpressionAttributes({
-  year: 1985
-}));
-
-// Object Rest/Spread
-// https://github.com/sebmarkbage/ecmascript-rest-spread
-// http://babeljs.io/docs/plugins/transform-object-rest-spread/
-// const params = {
-//   TableName: 'Movies',
-//   KeyConditionExpression: '#year = :year',
-//   ...getExpressionAttributes({ year:1985 })
-// };
+const params = getExpressionAttributes({
+  TableName: 'sessions',
+  FilterExpression: '#user = :user and #date between :start and :end',
+  ProjectionExpression: '#date, #user, #session'
+}, { user:'123456', start:'2017-02-01', end:'2017-03-01' });
 ```
 
 ## Install
@@ -53,7 +48,13 @@ $ npm test
 
 ## Limitations
 
-* The attribute name and value keys are assumed to be the same. A `KeyConditionExpression` like `#yr = :yyyy` won't work.
+* The attribute name placeholders are assumed to be the same as the keys in your database. A `KeyConditionExpression` like `#yr = :yyyy` won't work.
+* Only attribute names and values included in the "`data`" object are used. Defining a placeholder in only an expression but not "`data`" will not work.
+
+## Changelog
+
+* [v2.0.0](https://github.com/flesch/dynamodb-get-expression-attributes/releases/tag/v2.0.0): Creates `ExpressionAttributeNames` and `ExpressionAttributeValues` using a provided `KeyConditionExpression`, `FilterExpression` and/or `ProjectionExpression` and a "`data`" object.
+* [v1.0.0](https://github.com/flesch/dynamodb-get-expression-attributes/releases/tag/v1.0.0): Creates `ExpressionAttributeNames` and `ExpressionAttributeValues` from a provided "`data`" object.
 
 ## License
 
