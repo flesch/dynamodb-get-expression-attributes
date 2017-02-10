@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-get-expression-attributes",
   "description": "A simple utility to extract the needed `ExpressionAttributeNames` and `ExpressionAttributeValues` from a DynamoDB query/scan expression.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "John Flesch <john@fles.ch> (https://fles.ch/)",
   "bugs": {
     "url": "https://github.com/flesch/dynamodb-get-expression-attributes/issues"
