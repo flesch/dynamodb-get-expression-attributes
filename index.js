@@ -10,7 +10,7 @@ const getExpressionAttributes = (params, data) => {
     return Object.assign({}, ...names.map(attribute => {
       return { [attribute]: attribute.replace(/^#/, '') };
     }));
-  }));
+  }), params.ExpressionAttributeNames || {});
 
   // :attribute
   const ExpressionAttributeValues = Object.assign(...expressions.map(expression => {
@@ -18,7 +18,7 @@ const getExpressionAttributes = (params, data) => {
     return Object.assign({}, ...values.map(attribute => {
       return { [attribute]: data[attribute.replace(/^:/, '')] };
     }));
-  }));
+  }), params.ExpressionAttributeValues || {});
 
   return Object.assign(JSON.parse(JSON.stringify(params)), { ExpressionAttributeNames, ExpressionAttributeValues });
 

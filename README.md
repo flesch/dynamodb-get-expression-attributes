@@ -53,6 +53,7 @@ $ npm test
 
 ## Changelog
 
+* [v2.1.0](https://github.com/flesch/dynamodb-get-expression-attributes/releases/tag/v2.0.0): Doesn't clobber the existing ExpressionAttributeNames and ExpressionAttributeValues attributes
 * [v2.0.0](https://github.com/flesch/dynamodb-get-expression-attributes/releases/tag/v2.0.0): Creates `ExpressionAttributeNames` and `ExpressionAttributeValues` using a provided `KeyConditionExpression`, `FilterExpression` and/or `ProjectionExpression` and a "`data`" object.
 * [v1.0.0](https://github.com/flesch/dynamodb-get-expression-attributes/releases/tag/v1.0.0): Creates `ExpressionAttributeNames` and `ExpressionAttributeValues` from a provided "`data`" object.
 
